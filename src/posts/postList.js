@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 
 export class PostList extends Component {
     render() {
@@ -12,9 +13,9 @@ export class PostList extends Component {
         if (!auth.uid) return <Redirect to='/login' />
 
         return (
-            <div>
+            <Container component="main" maxWidth="sm">
                 <PostDisplay post={post} />
-            </div>
+            </Container>
         )
     }
 }

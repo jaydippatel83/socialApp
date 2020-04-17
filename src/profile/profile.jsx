@@ -2,14 +2,20 @@ import React, { Component } from 'react'
 import { Card, CardContent, Typography, CardActions, Button, Avatar } from '@material-ui/core';
 import logo from '../logo.svg';
 import { connect } from 'react-redux';
+import { Redirect,withRouter } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { deleteUser } from '../store/action/auth';
 
 class Profile extends Component {
     render() {
-        const { profile } = this.props;
+        const { profile, auth} = this.props;
+        console.log(profile,"image");
+        if (!auth.uid) return <Redirect to='/login' />
         return (
             <Card className="" >
                 <CardContent className="text-center">
-                    <Avatar alt="Jaydip" src={logo} className="m-auto" />
+                    <Avatar alt={profile.initials} src={profile.image} className="m-auto" />
                     <Typography className="text-uppercase" color="textSecondary" gutterBottom>
                         {profile.firstName} {profile.lastName}
                     </Typography>
@@ -19,8 +25,8 @@ class Profile extends Component {
                 </CardContent>
                 <CardActions className="d-flex justify-content-around">
                     <Button color="primary" size="small">Posts</Button>
-                    <Button color="primary" size="small">Follovers</Button>
-                    <Button color="primary" size="small">Following</Button>
+                    <Button color="primary" size="small"><EditIcon />Edit</Button>
+                    <Button onClick={this.props.deleteUser()} color="primary" size="small"><DeleteIcon />Delete</Button>
                 </CardActions>
             </Card>
         )
@@ -28,7 +34,15 @@ class Profile extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
+        auth: state.firebase.auth
     }
 }
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = (dispatch) => {  
+    return {
+        deleteUser: (user) => {
+            dispatch(deleteUser(user ))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

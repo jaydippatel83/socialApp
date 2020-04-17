@@ -2,3 +2,6 @@
     width: 100%;
     border-radius: 5px;
 }
+span.MuiTypography-root.MuiCardHeader-subheader.MuiTypography-body2.MuiTypography-colorTextSecondary.MuiTypography-displayBlock {
+color: white;
+}

@@ -32,6 +32,7 @@ export const signUp = (newUser) => {
       return firestore.collection('users').doc(res.user.uid).set({
         firstName: newUser.firstName,
         lastName: newUser.lastName,
+        image: newUser.image,
         initials: newUser.firstName[0] + newUser.lastName[0]
       })
     }).then(() => {
@@ -39,5 +40,17 @@ export const signUp = (newUser) => {
     }).catch((err) => {
       dispatch({ type: 'SIGNUP_ERROR', err })
     })
+  }
+}
+
+export const deleteUser = (user) => {
+  return (dispatch, getState, { getFirestore }) => {
+    // user=firebase.auth().currentUser;
+    // firebase.collection('users').doc(user).delete()
+    //   .then(() => {
+    //     dispatch({ type: 'DELETE_SUCCESS' });
+    //   }).catch((err) => {
+    //     dispatch({ type: 'DELETE_ERROR', err });
+    //   })
   }
 }

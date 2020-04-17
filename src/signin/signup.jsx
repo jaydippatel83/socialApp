@@ -11,13 +11,13 @@ import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 import { signUp } from '../store/action/auth';
 
-
 class SignUp extends Component {
     state = {
         firstName: '',
         lastName: '',
         email: '',
-        password: ''
+        password: '',
+        image: null
     }
     handleChange = (e) => {
         this.setState({
@@ -27,6 +27,9 @@ class SignUp extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.signUp(this.state);
+    }
+    handleChangeFile = (e) => {
+        this.setState({ image: URL.createObjectURL(e.target.files[0]) })
     }
     render() {
         const { authError, auth } = this.props;
@@ -93,6 +96,16 @@ class SignUp extends Component {
                                     autoComplete="current-password"
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <input
+                                    required
+                                    fullWidth
+                                    label="Image Upload"
+                                    type="file"
+                                    // id="image"
+                                    onChange={this.handleChangeFile}
+                                />
+                            </Grid>
                             {/* <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -106,7 +119,6 @@ class SignUp extends Component {
                             variant="contained"
                             color="primary"
                             className="submit mt-3"
-
                         >
                             Sign Up
                        </Button>

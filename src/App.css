@@ -1,6 +1,13 @@
 .App {
   text-align: center;
 }
+a {
+  text-decoration: none;
+}
+
+button:focus {
+  outline: none !important;
+}
 
 .App-logo {
   height: 40vmin;
@@ -35,4 +42,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.home-left {
+}
+.home-right {
 }

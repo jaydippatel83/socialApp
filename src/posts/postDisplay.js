@@ -13,21 +13,23 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment';
 
 const PostDisplay = ({ post }) => {
-    const posts = post.posts;
+    const posts = post.posts; 
+    console.log(posts,"images");
+    
     return (
         <div>
 
             {
                 posts ? posts.map((p) => {
-                    return <div key={p.id}>
-
-
+                    console.log(p.image,"image");
+                    return <div key={p.id}> 
                         <Card className="m-3">
                             <Link to={'/postdetail/' + p.id}>
                                 <CardHeader
+                                    className="text-capitalize"
                                     style={{ backgroundColor: '#3f51b5', color: 'white' }}
                                     avatar={
                                         <Avatar aria-label="recipe" className="text-uppercase">
@@ -40,13 +42,13 @@ const PostDisplay = ({ post }) => {
                                         </IconButton>
                                     }
                                     title={p.title}
-                                    subheader="date"
+                                    subheader={moment(p.createdAt.toDate()).calendar()}
                                 />
                             </Link>
                             <CardMedia
                                 className=""
                                 style={{ minWidth: '200px', minHeight: '200px' }}
-                                image={user}
+                                image={p.image}
                                 title="user "
                             />
                             <CardContent>
@@ -56,7 +58,7 @@ const PostDisplay = ({ post }) => {
                             </CardContent>
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites">
-                                    <FavoriteIcon className="text-danger" />
+                                    <FavoriteIcon  className="text-danger" />
                                 </IconButton>
                                 <IconButton aria-label="share">
                                     <ShareIcon />

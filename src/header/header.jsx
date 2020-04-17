@@ -23,7 +23,7 @@ class Header extends Component {
                         <IconButton edge="start" className="" color="inherit" aria-label="menu">
                             <MenuIcon className="mr-2" />
                              SocialApp
-                    </IconButton>
+                        </IconButton>
                     </Link>
                     <div className="">
                         <Link className="text-white text-uppercase font-weight-bold text-decoration-none mr-3" to="/profile">Profile</Link>
@@ -40,8 +40,7 @@ class Header extends Component {
         );
     }
 }
-const mapStateToProps = (state) => {
-    console.log(state, "state");
+const mapStateToProps = (state) => { 
     return {
         auth: state.firebase.auth,
         profile: state.firebase.profile

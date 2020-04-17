@@ -31,6 +31,16 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: action.err.message
             }
+        case 'DELETE_SUCCESS':
+            console.log('Delete success');
+            return {
+                ...state
+            }
+        case 'DELETE_ERROR':
+            console.log('Delete Failed');
+            return {
+                ...state
+            }
 
         default:
             return state

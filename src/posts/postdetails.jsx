@@ -4,7 +4,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Card, CardHeader, Avatar, IconButton, CardContent, Typography } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-
+import moment from 'moment';
 
 const PostDetails = (props) => {
     if (!props.post == '') {
@@ -23,7 +23,7 @@ const PostDetails = (props) => {
                             </IconButton>
                         }
                         title={props.post ? props.post.title : null}
-                        subheader="date"
+                        subheader={moment(props.post.createdAt.toDate()).calendar()}
                     />
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
