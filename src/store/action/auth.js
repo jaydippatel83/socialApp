@@ -41,16 +41,28 @@ export const signUp = (newUser) => {
       dispatch({ type: 'SIGNUP_ERROR', err })
     })
   }
+} 
+
+
+export const updateProfile = (update) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const uid = firebase.auth().currentUser.uid;
+    const udata = firebase.firestore();
+    udata.collection('users').doc(uid).set({
+      // ...users,update
+    })
+  }
 }
 
 export const deleteUser = (user) => {
   return (dispatch, getState, { getFirestore }) => {
-    // user=firebase.auth().currentUser;
-    // firebase.collection('users').doc(user).delete()
-    //   .then(() => {
-    //     dispatch({ type: 'DELETE_SUCCESS' });
-    //   }).catch((err) => {
-    //     dispatch({ type: 'DELETE_ERROR', err });
-    //   })
+    const firestore = getFirestore();
+    user = firebase.auth().currentUser.uid;
+    firestore.collection('users').doc(user).delete()
+      .then(() => {
+        dispatch({ type: 'DELETE_SUCCESS' });
+      }).catch((err) => {
+        dispatch({ type: 'DELETE_ERROR', err });
+      })
   }
 }

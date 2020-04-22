@@ -5,8 +5,15 @@ import { compose } from 'redux';
 import { Card, CardHeader, Avatar, IconButton, CardContent, Typography } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import moment from 'moment';
+import firebase from 'firebase';
 
 const PostDetails = (props) => {
+    const id = props.post ? props.post.authorId : null;
+
+
+    const postDelete = () => {
+       
+    }
     if (!props.post == '') {
         return (
             <div>
@@ -18,7 +25,7 @@ const PostDetails = (props) => {
                             </Avatar>
                         }
                         action={
-                            <IconButton aria-label="settings">
+                            <IconButton onClick={postDelete} aria-label="settings">
                                 <MoreVertIcon className="text-white" />
                             </IconButton>
                         }

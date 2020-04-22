@@ -1,3 +1,4 @@
+
 const initState = {
     posts: [
         { id: '1', title: 'help', content: 'akfbkfsudgbsdg sdkbsgdkbg sdkbg' },
