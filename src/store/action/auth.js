@@ -41,18 +41,33 @@ export const signUp = (newUser) => {
       dispatch({ type: 'SIGNUP_ERROR', err })
     })
   }
-} 
+}
 
 
 export const updateProfile = (update) => {
   return (dispatch, getState, { getFirestore }) => {
     const uid = firebase.auth().currentUser.uid;
     const udata = firebase.firestore();
-    udata.collection('users').doc(uid).set({
-      // ...users,update
+    udata.collection('users').doc(uid).update({
+      firstName: update.firstName,
+      lastName: update.lastName,
+      image: update.image,
+      email: update.email,
+      initials: update.firstName[0] + update.lastName[0]
     })
   }
 }
+
+export const updateEmail = (newEmail) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const user = firebase.auth().currentUser
+    user.updateEmail(
+      newEmail
+    )
+  }
+}
+
+
 
 export const deleteUser = (user) => {
   return (dispatch, getState, { getFirestore }) => {

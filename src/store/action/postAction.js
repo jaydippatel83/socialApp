@@ -3,7 +3,7 @@ export const createPost = (post) => {
         const firestore = getFirestore();
         const profile = getState().firebase.profile;
         const authorId = getState().firebase.auth.uid;
-        
+
         firestore.collection('posts').add({
             ...post,
             authorFirstName: profile.firstName,
@@ -11,6 +11,7 @@ export const createPost = (post) => {
             image: post.image,
             authorId: authorId,
             comments: [],
+            likes: [],
             createdAt: new Date(),
         }).then(() => {
             dispatch({ type: 'CREATE_POST', post });

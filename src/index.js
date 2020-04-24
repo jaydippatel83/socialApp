@@ -13,12 +13,7 @@ import fConfig from './firebase/fire';
 import firebase from 'firebase';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-// const rrfConfig = {
-//   useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
-//   userProfile: 'users',
-//   attachAuthIsReady: true,
-// };
+ 
 const store = createStore(
   rootReducer,
   composeEnhancers(
@@ -28,14 +23,7 @@ const store = createStore(
     reduxFirestore(fConfig),
     reactReduxFirebase(fConfig, { useFirestoreForProfile: true, userProfile: 'users', attachAuthIsReady: true })
   )
-)
-// const rrfProps = {
-//   firebase,
-//   config: rrfConfig,
-//   dispatch: store.dispatch,
-//   createFirestoreInstance
-// };
-
+)  
 store.firebaseAuthIsReady.then(() => {
   ReactDOM.render(
     <Provider store={store}>

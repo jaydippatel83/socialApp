@@ -5,3 +5,7 @@
 span.MuiTypography-root.MuiCardHeader-subheader.MuiTypography-body2.MuiTypography-colorTextSecondary.MuiTypography-displayBlock {
 color: white;
 }
+.comment-height{
+    max-height: 200px;
+    overflow-y: scroll;
+}

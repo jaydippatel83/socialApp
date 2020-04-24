@@ -16,19 +16,23 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import InsertCommentIcon from '@material-ui/icons/InsertComment';
 import * as firebase from 'firebase';
-import { TextField, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { TextField, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Divider } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { createPost } from '../store/action/postAction';
 import SendIcon from '@material-ui/icons/Send';
 
 
 
-const PostDisplay = ({ post }) => {
+const PostDisplay = ({ post, profile, auth }) => {
     const data = firebase.firestore();
-    var com;
     const [comment, setComments] = React.useState(['']);
 
+
     const posts = post.posts;
+    const pid = posts ? posts.map((p) => {
+        return p.likes
+    }) : null
+    // const [like, setLike] = React.useState(0);
 
     const postDelete = (id) => {
         const data = firebase.firestore();
@@ -38,44 +42,25 @@ const PostDisplay = ({ post }) => {
         setComments(e.target.value);
 
     }
+    const handleLike = (id) => {
+        // setLike(like + 1);
+        var like;
+        const post = posts ? posts.map((p) => {
+            if (id === p.id) {
+                like = p.likes;
+                like = like + 1; 
+                return p.likes
+            }
+        }) : null
+
+
+        data.collection('posts').doc(id).update({ likes: like })
+    }
+
     const handleSubmit = (id) => {
-        setComments('');
         data.collection('posts').doc(`${id}`).update({
             comments: firebase.firestore.FieldValue.arrayUnion(`${comment}`)
         });
-
-
-
-
-        // const db = firebase.firestore().collection('posts').doc(`${id}`)
-        // console.log(getDoc, "db");
-
-        // firebase.firestore().collection(`posts/${id}/comments`).push(comment);
-
-
-        // var docRef = data.collection("posts").doc(id); 
-        // docRef.get().then(function (doc) {
-        //     if (doc.exists) {
-        //         com = doc.data().comments;
-        //     } else { 
-        //         console.log("No such document!");
-        //     }
-        // }).catch(function (error) {
-        //     console.log("Error getting document:", error);
-        // }); 
-
-        // com = [...com, comment];
-        // setComments(''); 
-        // data.collection('posts').doc(id).set({ 
-
-        // })
-
-        //   const com= posts.filter((i) => i.id === id).map((item) => { 
-        //         return {
-        //          comments:  [ ...item.comments,comment]
-        //         }
-        //     })
-        //     console.log(com,"com");
 
 
     }
@@ -84,8 +69,20 @@ const PostDisplay = ({ post }) => {
         <div>
             {
                 posts ? posts.map((p) => {
-                    const commt = p.comments.map((c) => {
-                        return <div>{c}</div>
+                    var plike = p.likes;
+                    // var a = plike.slice(-1)[0]; 
+
+                    const commt = p.comments.map((c, index) => {
+
+                        return <div key={index} >
+                            <Divider />
+                            <div className="d-flex justify-content-start p-2">
+                                <Avatar aria-label="recipe" className="text-uppercase">
+                                    {profile.initials}
+                                </Avatar>
+                                <span className="ml-2 mt-2 text-primary"> {c}</span>
+                            </div>
+                        </div>
                     })
                     const id = p.id;
                     return <div key={id}>
@@ -118,7 +115,7 @@ const PostDisplay = ({ post }) => {
                                 <Typography variant="body2" color="textSecondary" component="p">
                                     {p.posts}
                                 </Typography>
-                                <div className="mt-4">
+                                <div className="mt-4 comment-height">
                                     <Typography variant="body1" color="textSecondary" component="p">
                                         {commt}
                                     </Typography>
@@ -126,7 +123,8 @@ const PostDisplay = ({ post }) => {
                             </CardContent>
 
                             <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites">
+                                <IconButton onClick={() => handleLike(id)} aria-label="add to favorites">
+                                    {p.likes}
                                     <FavoriteIcon className="text-danger" />
                                 </IconButton>
                                 <IconButton aria-label="share">
@@ -137,8 +135,6 @@ const PostDisplay = ({ post }) => {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    value={comment}
-                                    id="comments"
                                     label="Comments"
                                     name="Comments"
                                     onChange={handleChange}
@@ -159,10 +155,17 @@ const PostDisplay = ({ post }) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        profile: state.firebase.profile,
+        auth: state.firebase.auth
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createPost: (post) => dispatch(createPost(post)),
     }
 }
 
-export default connect(null, mapDispatchToProps)(PostDisplay);
+export default connect(mapStateToProps, mapDispatchToProps)(PostDisplay);
